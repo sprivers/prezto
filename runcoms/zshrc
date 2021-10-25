@@ -11,5 +11,9 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+source ~/Documents/repos/clario/dev-helpers/ninja-sa/ninja_cloud_sa.sh
+
 export JAVA_HOME=`/usr/libexec/java_home -v 11`
+
+switch-creds dev
 
