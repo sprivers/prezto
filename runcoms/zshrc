@@ -17,10 +17,10 @@ export JAVA_HOME=`/usr/libexec/java_home -v 11`
 
 switch-creds dev
 
-export PATH="$HOME/.pyenv/bin:$PATH"
+export PATH="$HOME/.pyenv/bin:/Users/sprivers/homebrew/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  [ -s "/Users/sprivers/homebrew/opt/nvm/nvm.sh" ] && . "/Users/sprivers/homebrew/opt/nvm/nvm.sh" 
+  [ -s "/Users/sprivers/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/Users/sprivers/homebrew/opt/nvm/etc/bash_completion.d/nvm" 
