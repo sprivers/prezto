@@ -17,6 +17,7 @@ export JAVA_HOME=`/usr/libexec/java_home -v 11`
 export DEV_HELPERS_HOME=/Users/sprivers/Documents/repos/clario/dev-helpers
 
 alias sammy='$DEV_HELPERS_HOME/sammy/sammy.sh'
+alias clario='cd /Users/sprivers/Documents/repos/clario'
 
 switch-creds dev
 
