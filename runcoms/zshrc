@@ -28,3 +28,14 @@ eval "$(pyenv virtualenv-init -)"
 export NVM_DIR="$HOME/.nvm"
   [ -s "/Users/sprivers/homebrew/opt/nvm/nvm.sh" ] && . "/Users/sprivers/homebrew/opt/nvm/nvm.sh" 
   [ -s "/Users/sprivers/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/Users/sprivers/homebrew/opt/nvm/etc/bash_completion.d/nvm" 
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/sprivers/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/sprivers/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/sprivers/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/sprivers/google-cloud-sdk/completion.zsh.inc'; fi
+
+alias es-dev-proxy="switch-creds dev;aws-es-proxy -endpoint https://`nslookup search.dev.clario.us | grep -m 1 'Name:' | awk '{print $2}'`"
+alias es-qa-proxy="switch-creds qa;aws-es-proxy -endpoint https://`nslookup search.qa.clario.us | grep -m 1 'Name:' | awk '{print $2}'`"
+alias es-prod-proxy="switch-creds prod;aws-es-proxy -endpoint https://`nslookup search.prod.clario.us | grep -m 1 'Name:' | awk '{print $2}'`"
+
