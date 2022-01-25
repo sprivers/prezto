@@ -35,7 +35,12 @@ if [ -f '/Users/sprivers/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/sprive
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/sprivers/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/sprivers/google-cloud-sdk/completion.zsh.inc'; fi
 
-alias es-dev-proxy="switch-creds dev;aws-es-proxy -endpoint https://`nslookup search.dev.clario.us | grep -m 1 'Name:' | awk '{print $2}'`"
-alias es-qa-proxy="switch-creds qa;aws-es-proxy -endpoint https://`nslookup search.qa.clario.us | grep -m 1 'Name:' | awk '{print $2}'`"
-alias es-prod-proxy="switch-creds prod;aws-es-proxy -endpoint https://`nslookup search.prod.clario.us | grep -m 1 'Name:' | awk '{print $2}'`"
-
+function switch-repoman-settings() {
+  if [[ $1 == "on" ]]
+  then
+    ln -sf ~/.m2/settings.xml.repoman ~/.m2/settings.xml
+  else
+    ln -sf ~/.m2/settings.xml.clario ~/.m2/settings.xml
+  fi  
+  ll ~/.m2/settings.xml
+}
