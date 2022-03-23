@@ -29,6 +29,8 @@ export NVM_DIR="$HOME/.nvm"
   [ -s "/Users/sprivers/homebrew/opt/nvm/nvm.sh" ] && . "/Users/sprivers/homebrew/opt/nvm/nvm.sh" 
   [ -s "/Users/sprivers/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/Users/sprivers/homebrew/opt/nvm/etc/bash_completion.d/nvm" 
 
+export GROOVY_HOME=/Users/sprivers/homebrew/opt/groovy/libexec
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/sprivers/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/sprivers/google-cloud-sdk/path.zsh.inc'; fi
 
@@ -44,3 +46,7 @@ function switch-repoman-settings() {
   fi  
   ll ~/.m2/settings.xml
 }
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
