@@ -17,7 +17,14 @@ export JAVA_HOME=`/usr/libexec/java_home -v 11`
 export DEV_HELPERS_HOME=/Users/sprivers/Documents/repos/clario/dev-helpers
 
 alias sammy='$DEV_HELPERS_HOME/sammy/sammy.sh'
+alias yammy='$DEV_HELPERS_HOME/sammy/yammy.sh'
+
 alias clario='cd /Users/sprivers/Documents/repos/clario'
+
+alias plantUML='java -jar /Users/sprivers/Documents/repos/special/plantuml-1.2022.6.jar'
+alias tail='fn() { aws logs tail $1 --follow };fn'
+alias tail-automations='tail /ecs/dev-automation-service'
+alias tail-prod-automations='tail /ecs/prod-automation-service'
 
 switch-creds dev
 
@@ -30,6 +37,8 @@ export NVM_DIR="$HOME/.nvm"
   [ -s "/Users/sprivers/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/Users/sprivers/homebrew/opt/nvm/etc/bash_completion.d/nvm" 
 
 export GROOVY_HOME=/Users/sprivers/homebrew/opt/groovy/libexec
+
+export GOOGLE_APPLICATION_CREDENTIALS=/Users/sprivers/.google/credentials.json
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/sprivers/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/sprivers/google-cloud-sdk/path.zsh.inc'; fi
@@ -47,6 +56,74 @@ function switch-repoman-settings() {
   ll ~/.m2/settings.xml
 }
 
+export PATH="/Users/steven.rivers/google-cloud-sdk/bin:$PATH"
+
+function gfs() { 
+  git flow feature start PNIX-$1
+}
+
+function gff() { 
+  git flow feature finish PNIX-$1
+}
+
+function gfp() { 
+  git flow feature publish PNIX-$1
+}
+
+function api-pinhole() {
+  local env=$1
+  local action=$2
+  local group_id
+  if [ -z $env ] || [ -z $action ]
+  then
+      echo "Argument needed"
+      echo "api-pinhole <env> <open|close>"
+  else
+    case $env in
+      dev)
+        group_id="sg-43d84d39"
+      ;;
+      qa)
+        group_id="sg-7c04c106"
+      ;;
+      prod)
+        group_id="sg-6b78fe11"
+      ;;
+    esac
+    case $action in
+     open)
+       switch-creds $env
+       echo "Authorizing $env API ingress from HQ"
+       aws ec2 authorize-security-group-ingress --group-id $group_id --protocol tcp --port 80 --source-group sg-3d374a59
+       #aws ec2 authorize-security-group-ingress --group-id $group_id --protocol tcp --port 80 --cidr 192.168.10.0/24
+       if [ $? -eq 0  ];
+       then
+         echo "Authorized"
+       else
+         echo "Authorization failed"
+       fi
+     ;;
+     close)
+       switch-creds $env
+       echo "Revoking $env API ingress from HQ"
+       aws ec2 revoke-security-group-ingress --group-id $group_id --protocol tcp --port 80 --source-group sg-3d374a59
+       #aws ec2 revoke-security-group-ingress --group-id $group_id --ip-permissions '[{"IpProtocol": "tcp", "FromPort": 80, "ToPort": 80, "IpRanges": [{"CidrIp": "192.168.10.0/24"}]}]'
+       if [ $? -eq 0  ];
+       then
+         echo "Revoked"
+       else
+         echo "Revocation failed"
+       fi
+     ;;
+    esac
+  fi
+}
+
+
+
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+# export SDKMAN_DIR="$HOME/.sdkman"
+# [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# eval "$(oh-my-posh init zsh)"
